@@ -1,14 +1,16 @@
 {
-  "name": "node-js-getting-started",
+  "name": "voting-link-generation",
   "version": "0.3.0",
-  "description": "A sample Node.js app using Express 4",
+  "description": "Simple voting link",
+  "type": "module",
   "engines": {
-    "node": "14.x"
+    "node": "16.x"
   },
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node test.js"
+    "test": "node test.js",
+    "server": "nodemon index"
   },
   "dependencies": {
     "ejs": "^3.1.5",
@@ -16,11 +18,12 @@
   },
   "devDependencies": {
     "got": "^11.3.0",
+    "nodemon": "^2.0.15",
     "tape": "^4.7.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/heroku/node-js-getting-started"
+    "url": ""
   },
   "keywords": [
     "node",
