@@ -5,12 +5,12 @@ import { v4 as uuid } from 'uuid'
 // let newdata = data
 
 export const getSignUp = async (req, res, next) => {
+   console.log(res.locals.error)
    res.render('pages/signup')
 }
 export const signUp = async (req, res, next) => {
    try {
       const { firstName, lastName, email, mobileNumber } = req.body
-      console.log(req.body)
       // let newdata = data
       let newdata = {
          _id: uuid(),
@@ -62,7 +62,7 @@ export const getUsers = async (req, res, next) => {
 
 export const getSharedLink = async (req, res, next) => {
    try {
-      console.log(req.params.id)
+      // console.log(req.params.id)
       const response = await funcOps.getDataById(req.params.id)
       if (response) {
          res.render('pages/sharedSignUp', { user: response, _id: response._id })
@@ -79,7 +79,6 @@ export const getSharedLink = async (req, res, next) => {
 export const registerShared = async (req, res, next) => {
    try {
       const { firstName, lastName, email, mobileNumber } = req.body
-      console.log(req.body)
       // let newdata = data
       let newdata = {
          _id: uuid(),
@@ -92,16 +91,19 @@ export const registerShared = async (req, res, next) => {
       }
       if (req.params.id) {
          const found = await funcOps.getDataById(req.params.id)
+         console.log('found data', found)
          if (found) {
             const newUser = await funcOps.pushData(newdata)
+            console.log('new data', newUser)
             if (newUser) {
                const response = await funcOps.getSharedData(found)
+               console.log('response', response)
                if (response) {
-                  res.status(201).json({
-                     success: true,
-                     data: response
-                  })
-                  res.render('pages/index', { userShared: response })
+                  // res.status(201).json({
+                  //    success: true,
+                  //    data: response
+                  // })
+                  res.redirect('/')
                } else {
                   res.status(401)
                   throw new Error('Not count added')
@@ -124,6 +126,23 @@ export const registerShared = async (req, res, next) => {
 
    }
 }
+
+export const getWinner = async (req, res, next) => {
+   try {
+      const response = await funcOps.getWinner()
+      if (response) {
+         res.render('pages/winner', { winner: response })
+      } else {
+         res.status(404)
+         res.redirect('/')
+         return
+      }
+   } catch (err) {
+      // res.render()
+      console.log(err.message)
+      res.render('pages/index', { error: err.message })
+   }
+}
 export const calcSharedCount = async (req, res, next) => {
    try {
       if (req.params.id) {
@@ -131,10 +150,10 @@ export const calcSharedCount = async (req, res, next) => {
          if (found) {
             const response = await funcOps.getSharedData(found)
             if (response) {
-               res.status(201).json({
-                  success: true,
-                  data: response
-               })
+               // res.status(201).json({
+               //    success: true,
+               //    data: response
+               // })
                res.render('pages/index', { userShared: response })
             } else {
                res.status(401)

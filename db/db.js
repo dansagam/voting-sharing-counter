@@ -26,11 +26,21 @@ const getData = () => {
       }
    })
 }
+const getWinner = () => {
+   return new Promise((resolve, reject) => {
+      let countArray = users.reduce((prev, curr) => (prev.count > curr.count) ? prev : curr, 0)
+      // let countArray = users[0]
+      console.log('john', countArray)
+      if (countArray) {
+         resolve(countArray)
+      } else reject(new Error('No winner yet'))
+   })
+}
 
 const getDataById = (id) => {
    return new Promise((resolve, reject) => {
       const foundData = users.find((el) => el._id === id)
-      console.log(foundData)
+      // console.log(foundData)
       if (foundData) {
          resolve(foundData)
       } else {
@@ -58,7 +68,8 @@ const funcOps = {
    pushData,
    getDataById,
    getSharedData,
-   getData
+   getData,
+   getWinner
 }
 
 export default funcOps
