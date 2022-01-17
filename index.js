@@ -4,8 +4,9 @@ import userRoutes from './routes/usersRoutes.js'
 const PORT = process.env.PORT || 5000
 const app = express()
 
-const __dirname = path.resolve()
+app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+const __dirname = path.resolve()
 app.use('/api/v2/users', userRoutes)
 app.use(express.static(path.join(__dirname, 'public')))
 app.set('views', path.join(__dirname, 'views'))

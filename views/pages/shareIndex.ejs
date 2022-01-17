@@ -12,12 +12,26 @@
             <h1>Welcome to User Voting count!</h1>
             <p>just testing the page</p>
             <p>
-               <a class="btn btn-light btn-large" href="/api/v2/users">
-                  Sign Up
-               </a>
+               <div class="form-group">
+                  <input 
+                     id="input" 
+                     class="form-control" 
+                     type="text" 
+                     value="/api/v2/users/<%= user._id %>/voting">
+               </div>
+               <button class="btn btn-light btn-large" onclick="copy()"> Copy Link to share</button>
             </p>
          </div>
       </div>
       <div class="container"></div>
+      <script>
+         function copy() {
+            var copyText = document.querySelector("#input");
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); /* For mobile devices */
+            navigator.clipboard.writeText(window.location.origin + copyText.value);
+            alert("Copied the text: " + window.location.origin + copyText.value);
+         }
+      </script>
    </body>
 </html>
