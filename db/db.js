@@ -1,4 +1,4 @@
-const users = []
+let users = []
 export const data = {
    _id: '',
    firstName: '',
@@ -9,28 +9,43 @@ export const data = {
 }
 
 const pushData = (propData) => {
+   // console.log(propData, 'dsjsdjdh')
    return new Promise((resolve, reject) => {
-      resolve(users.push(propData))
+      users.push(propData)
+      let found = users.find(el => el === propData)
+      resolve(found)
+   })
+}
+const getData = () => {
+   // console.log(users)
+   return new Promise((resolve, reject) => {
+      if (users && users.length > 0) {
+         resolve(users)
+      } else {
+         reject(new Error('No user registered yet'))
+      }
    })
 }
 
 const getDataById = (id) => {
    return new Promise((resolve, reject) => {
-      const foundData = users.map((el) => el._id === id)
-      if (foundData && foundData.length > 0) {
-         resolve(foundData[0])
+      const foundData = users.find((el) => el._id === id)
+      console.log(foundData)
+      if (foundData) {
+         resolve(foundData)
       } else {
          reject(new Error('No user with the id'))
       }
    })
 }
 
-const getSharedData = (id) => {
+const getSharedData = (found) => {
    return new Promise((resolve, reject) => {
-      const userIndex = users.indexOf(getDataById(id))
+      const userIndex = users.indexOf(found)
+      console.log(userIndex)
       if (userIndex !== -1) {
          users[userIndex].count += 1
-         resolve(users)
+         resolve(users[userIndex])
       } else {
          reject(new Error('User Id not found'))
       }
@@ -40,9 +55,10 @@ const getSharedData = (id) => {
 export { users }
 
 const funcOps = {
-   pushData: pushData,
-   getDataById: getDataById,
-   getSharedData: getSharedData
+   pushData,
+   getDataById,
+   getSharedData,
+   getData
 }
 
 export default funcOps
